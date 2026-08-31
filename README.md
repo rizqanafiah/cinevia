@@ -23,15 +23,11 @@ Transisi status dijalankan melalui method model khusus (bukan manipulasi kolom l
 - **Status Booking (`StatusBooking`)**: `PENDING` (Menunggu) $\rightarrow$ `CONFIRMED` (Dikonfirmasi) / `CANCELLED` (Dibatalkan).
 - Saat pembayaran berstatus `PAID`, booking otomatis terkonfirmasi (`CONFIRMED`) dan e-ticket langsung aktif.
 
-### 4. Auto-Cancel Booking Kedaluwarsa (30 Menit)
-- Setiap booking memiliki atribut `expired_at` (30 menit sejak dibuat).
-- Artisan Command `php artisan bookings:cancel-expired` dijadwalkan berjalan otomatis via Laravel Scheduler (`routes/console.php`) untuk membatalkan booking yang belum dibayar dan melepas kursi kembali ke publik.
-
-### 5. Keamanan Bukti Pembayaran
+### 4. Keamanan Bukti Pembayaran
 - File bukti transfer disimpan pada disk lokal privat (`storage/app/private/bukti-pembayaran/`).
 - Tidak dapat diakses publik secara langsung; diakses melalui route terproteksi dengan otorisasi `PaymentPolicy` (hanya pemilik booking, staff, atau admin).
 
-### 6. E-Ticket Resmi, QR Code & Unduh PDF
+### 5. E-Ticket Resmi, QR Code & Unduh PDF
 - Tiket hanya dapat diakses dan diunduh setelah booking berstatus `CONFIRMED`.
 - Dilengkapi QR Code unik (berisi kode booking) menggunakan `simplesoftwareio/simple-qrcode`.
 - Unduh tiket siap cetak format PDF menggunakan `barryvdh/laravel-dompdf`.
